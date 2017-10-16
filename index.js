@@ -43,7 +43,15 @@ function getRegEx(pattern, regex) {
         flags = 'g'
     }
 
-    grabLineRegEx = "(.*" + term + ".*)"
+    if(term.indexOf(('|') !== -1)){
+        let regexes = [];
+        for(let ele of term.split('|')){
+            regexes.push(`.*${ele}.*`);
+        };
+        grabLineRegEx = '(' + regexes.join('|') + ')'
+    } else {
+        grabLineRegEx = "(.*" + term + ".*)"
+    }
 
     if (regex === 'line') {
         return new RegExp(grabLineRegEx, flags)
